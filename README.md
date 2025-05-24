@@ -137,7 +137,68 @@ sudo mv chromedriver /usr/local/bin/
 sudo chmod +x /usr/local/bin/chromedriver
 ```
 
-## 7. Exemplo de código básico
+### Verificar caminho ChromeDriver
+
+```bash
+which chromedriver
+```
+
+## 7. Instalar Selenium
+
+### Problema comum: "externally-managed-environment"
+
+Nas versões recentes do Debian e Ubuntu, você pode encontrar este erro ao usar pip:
+
+```
+error: externally-managed-environment
+× This environment is externally managed
+```
+
+### Opção 1: Instalar via apt (recomendado para ambiente de sistema)
+
+```bash
+sudo apt install python3-bs4
+```
+
+### Opção 2: Criar um ambiente virtual (melhor prática para desenvolvimento)
+
+```bash
+sudo apt install python3-full python3-venv
+```
+
+```bash
+python3 -m venv ~/selenium_env
+```
+
+```bash
+source ~/selenium_env/bin/activate
+```
+
+```bash
+pip install beautifulsoup4 selenium webdriver-manager
+```
+
+### Opção 3: Usar pipx (bom para ferramentas isoladas)
+
+```bash
+sudo apt install pipx
+```
+
+```bash
+pipx ensurepath
+```
+
+```bash
+pipx install beautifulsoup4
+```
+
+### Opção 4: Forçar a instalação (NÃO RECOMENDADO)
+
+```bash
+pip install beautifulsoup4 --break-system-packages
+```
+
+## 8. Exemplo de código básico
 
 ```python
 from selenium import webdriver
