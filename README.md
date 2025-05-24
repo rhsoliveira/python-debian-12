@@ -248,3 +248,139 @@ chromedriver --version
 ```bash
 chromium --version
 ```
+
+# Guia de Instalação: PHP e Extensão cURL
+
+Este guia explica como instalar o PHP e a extensão cURL no Debian/Ubuntu para execução de scripts que necessitam realizar requisições HTTP.
+
+## Pré-requisitos
+
+- Acesso root ou permissões sudo
+- Terminal de linha de comando
+- Sistema operacional Debian/Ubuntu
+
+## Atualizar o Sistema
+
+Antes de instalar qualquer pacote, é recomendável atualizar a lista de pacotes:
+
+```bash
+sudo apt update
+```
+
+```bash
+sudo apt upgrade -y
+```
+
+## Instalação do PHP
+
+Instale o PHP e os pacotes comuns:
+
+```bash
+sudo apt install -y php php-cli php-common
+```
+
+## Instalação da Extensão cURL para PHP
+
+A extensão cURL permite que scripts PHP realizem requisições HTTP/HTTPS:
+
+```bash
+sudo apt install -y php-curl
+```
+
+## Instalação de Extensões PHP Adicionais (Opcional)
+
+Dependendo das necessidades do seu projeto, você pode instalar outras extensões comuns:
+
+```bash
+sudo apt install -y php-json php-mbstring php-xml php-zip
+```
+
+## Verificar a Instalação
+
+### Verificar a versão do PHP:
+
+```bash
+php -v
+```
+
+### Verificar se a extensão cURL está instalada:
+
+```bash
+php -m | grep curl
+```
+
+Ou de forma mais detalhada:
+
+```bash
+php -i | grep curl
+```
+
+## Executando Scripts PHP com cURL
+
+Um exemplo básico de script PHP que utiliza cURL:
+
+```php
+<?php
+// Inicializa uma sessão cURL
+$ch = curl_init('https://api.exemplo.com/dados');
+
+// Configura opções da requisição
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+
+// Executa a requisição
+$response = curl_exec($ch);
+
+// Verifica erros
+if (curl_errno($ch)) {
+    echo 'Erro cURL: ' . curl_error($ch);
+} else {
+    echo 'Resposta: ' . $response;
+}
+
+// Fecha a sessão cURL
+curl_close($ch);
+?>
+```
+
+Para executar um script PHP pelo terminal:
+
+```bash
+php seu_script.php
+```
+
+## Solução de Problemas
+
+### Se você receber o erro "Call to undefined function curl_init()":
+
+Este erro indica que a extensão cURL não está instalada ou não está ativada:
+
+1. Verifique se a extensão está instalada:
+   ```bash
+   apt list --installed | grep php-curl
+   ```
+
+2. Se não estiver instalada, instale-a:
+   ```bash
+   sudo apt install php-curl
+   ```
+
+3. Se estiver instalada, verifique se está ativada:
+   ```bash
+   php -i | grep curl
+   ```
+
+4. Pode ser necessário reiniciar serviços web após a instalação:
+   ```bash
+   sudo systemctl restart apache2
+   ```
+   ou
+   ```bash
+   sudo systemctl restart php-fpm
+   ```
+
+## Observações
+
+- A versão do PHP e suas extensões podem variar dependendo da versão do sistema operacional
+- Para ambientes de produção, considere configurações adicionais de segurança
+- Mantenha o PHP e suas extensões atualizadas para evitar vulnerabilidades
